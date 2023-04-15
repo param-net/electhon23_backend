@@ -22,8 +22,12 @@ app.get('/ec/end_poll', (req, res) => {
 });
 
 app.get('/results', (req, res) => {
-    const book = req.body;
-    res.send({ msg: 'Book is added to the database' });
+    res.send({ msg: 'Pending' });
+});
+
+app.get('/vote/schudle', (req, res) => {
+    const mobileNumber = req.body.mobileNumber
+    res.send({ msg: 'Pending' });
 });
 
 app.post('/register', (req, res) => {

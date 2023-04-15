@@ -95,7 +95,7 @@ class MongoDB {
         if (!mobileNumber) {
             return Promise.reject({ "msg": "Invalid mobile number" })
         }
-        return this.database.collection(`${Config.voterInfo}`).findOne({ mobileNumber: mobileNumber }).then(res => {
+        return this.database.collection(`${Config.voterInfo}`).findOne({$or:[{ mobileNumber: mobileNumber},{ _id: mobileNumber}]}).then(res => {
             if (!res) {
                 return Promise.reject({ "msg": "User not exists" })
             }
@@ -125,7 +125,7 @@ class MongoDB {
             },
                 { $set: { isVerified: true } })
         }).then(res => {
-            return this.database.collection(`${Config.voterInfo}`).findOne({ mobileNumber: mobileNumber })
+            return this.database.collection(`${Config.voterInfo}`).findOne({$or:[{ mobileNumber: mobileNumber},{ _id: mobileNumber}]})
         }).catch(e => {
             return Promise.reject({ "msg": "Invalid phone number/otp" })
         })
