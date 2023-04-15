@@ -21,6 +21,10 @@ let idType = "1"
     console.log('TxnHash ', data);
 }) */
 
-electhon.getVotingStatus(options.from).then(data => {
+/* electhon.getVotingStatus(options.from).then(data => {
+    console.log('TxnHash ', data);
+}) */
+
+electhon.getAllUsers("0xc3ab9670c93bca0c1c35db0538d8c45ff99862e7").then(data => {
     console.log('TxnHash ', data);
 })

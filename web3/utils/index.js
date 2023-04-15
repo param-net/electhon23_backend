@@ -10,7 +10,6 @@ const _paramConfig = require('../config.json');
 class ParamUtils {
 
     static submitTransaction(connection, txData, options) {
-        debugger;
         return new Promise((resolve, reject) => {
             connection.eth.getTransactionCount(options.from, function (error, nonce) {
                 if (error) {
