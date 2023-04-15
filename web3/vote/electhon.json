@@ -51,7 +51,7 @@
                 },
                 {
                     "name": "idType",
-                    "type": "uint256"
+                    "type": "string"
                 }
             ],
             "name": "addCandidate",
@@ -78,7 +78,7 @@
                 },
                 {
                     "name": "idType",
-                    "type": "uint256"
+                    "type": "string"
                 }
             ],
             "name": "addUsers",
@@ -183,7 +183,7 @@
                 },
                 {
                     "name": "idType",
-                    "type": "uint256"
+                    "type": "string"
                 },
                 {
                     "name": "voteSpent",
@@ -214,7 +214,7 @@
                 },
                 {
                     "name": "idType",
-                    "type": "uint256"
+                    "type": "string"
                 }
             ],
             "payable": false,
@@ -222,5 +222,5 @@
             "type": "function"
         }
     ],
-    "address": "0xf97b516880445e4763f3b0584014fb93496d6565"
+    "address": "0x7aadc12522a6caba41059184b6da37f0fc10e6ff"
 }
