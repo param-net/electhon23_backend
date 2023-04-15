@@ -25,10 +25,19 @@ class MongoDB{
         
     }
 
-    register(idProof, addressProof, idType, mobileNumber) {
-        const location = ["vijayawada","domlur","indiranar"]
-        if(!idType|| (idType !== "epic" && !idProof) ||!mobileNumber){
+    register(idProof, addressProof, idType) {
+        const locationArray = ["nippani","athani","Rajaji Nagar"]
+        const locationIndex = Math.floor(Math.random() * locationArray.length);
+        const location = locationArray[locationIndex]
+        if(!idType|| (idType !== "epic" && !idProof)){
             return Promise.reject({"msg":"Invalid id proof"})
+        }
+        let mobileNumber = addressProof;//addressProof
+        if(idType == "epic"){
+            mobileNumber = mobileNumber.substring(3)
+            mobileNumber = mobileNumber+mobileNumber.substring(0,3)
+        } else {
+            mobileNumber = mobileNumber.substring(2)
         }
         const EthWallet = Wallet.default.generate();
         const address = EthWallet.getAddressString();
@@ -41,7 +50,7 @@ class MongoDB{
             privateKey,
             mobileNumber,
             isVerified: false,
-            location: location[1]
+            location: location
         }).then(res=>{
             return this.sendOTP(`${mobileNumber}`);
         }).catch(e=>{
@@ -106,39 +115,58 @@ class MongoDB{
     }
 
     addCandidate(json) {
-        if(!address){
+        if(!json){
             return Promise.reject({"msg":"Auth failed"})
         }
-        return this.database.collection(`${Config.voterInfo}`).findOne({ 
-            address: address,
-        }).then(res=>{
-            if(!res){
-                return Promise.reject({msg:"Unable to locate user"})
+        return this.database.collection(`${Config.candidate}`).insertOne(json).then(res=>{
+            if(!res) {
+                return Promise.reject({msg:"Unable to add candidate"})
             }
             return res
         }).catch(e=>{
-           return Promise.reject({"msg":"Unable to locate user"})
+           return Promise.reject({"msg":"Unable to add candidate"})
         })
     }
 
     getCandidates(location) {
         if(!location){
-            return Promise.reject({"msg":"Auth failed"})
+            return Promise.reject({"msg":"Invalid location"})
         }
-        return this.database.collection(`${Config.voterInfo}`).findOne({ 
-            address: address,
-        }).then(res=>{
-            if(!res){
-                return Promise.reject({msg:"Unable to locate user"})
-            }
+        return this.database.collection(`${Config.candidate}`).find({ 
+            location: location,
+        }).toArray().then(res=>{
             return res
         }).catch(e=>{
            return Promise.reject({"msg":"Unable to locate user"})
         })
     }
-    
-    castVote(){
 
+    getVoters(location){
+        return this.database.collection(`${Config.voterInfo}`).find({ 
+            location: location,
+        }).toArray().then(res=>{
+            return res
+        }).catch(e=>{
+           return Promise.reject({"msg":"Unable to locate user"})
+        })
+    }
+    castVote(vAddress, cID) {
+        const voteType = cID?"Online":"Offline";
+        return this.database.collection(`${Config.voterInfo}`).findOne({ 
+            address: vAddress,
+        }).then(res=>{
+            if(!res){
+                return Promise.reject({msg:"Unable to locate user"})
+            }
+            if(res.isVoted){
+                return Promise.reject({msg:"Already voted"})
+            }
+            return this.database.collection(`${Config.voterInfo}`).updateOne({ 
+                address: vAddress,
+            },
+            { $set: { isVoted: true, cID: cID, "voteType":voteType } }, 
+            { upsert: true })
+        })
     }
 }
 module.exports = MongoDB;

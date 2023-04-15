@@ -57,14 +57,38 @@ app.post('/vote/profile', (req, res) => {
     })
 })
 
-app.get('/candidates', (req, res) => {
-    const book = req.body;
-    res.send({msg:'Book is added to the database'});
+app.post('/candidate/add', (req, res) => {
+    return MongoDB.getInstance().addCandidate(req.body).then(result=>{
+        return res.json({"status":1, message:result})
+    }).catch(err=>{
+        res.json({"status":0, message: "Unable to send OTP"})
+    })
 });
 
-app.post('/candidates/vote', (req, res) => {
-    const book = req.body;
-    res.send({msg:'Book is added to the database'});
+app.post('/candidates', (req, res) => {
+    return MongoDB.getInstance().getCandidates(req.body.location).then(result=>{
+        return res.json({"status":1, message:result})
+    }).catch(err=>{
+        res.json({"status":0, message: "Unable to get candidates"})
+    })
+});
+
+app.post('/voter/list', (req, res) => {
+    return MongoDB.getInstance().getVoters(req.body.location).then(result=>{
+        return res.json({"status":1, message:result})
+    }).catch(err=>{
+        res.json({"status":0, message: "Unable to get candidates"})
+    })
+});
+
+app.post('/voter/vote', (req, res) => {
+    const address = req.body.address;
+    const vote    = req.body.cID;
+    return MongoDB.getInstance().castVote(address, vote).then(result=>{
+        return res.json({"status":1, message:result})
+    }).catch(e=>{
+        res.json({"status":0, message: !e.msg?"Unable to cast your vote":e.msg})
+    })
 });
 
 MongoDB.getInstance().connect().then(res=>{
