@@ -47,11 +47,13 @@ class MongoDB {
             return Promise.reject({ "msg": "Invalid id proof" })
         }
         let mobileNumber = addressProof;//addressProof
+        let epicNumber = mobileNumber;
         if (idType == "epic") {
             mobileNumber = mobileNumber.substring(3)
             mobileNumber = mobileNumber + mobileNumber.substring(0, 3)
         } else {
             mobileNumber = mobileNumber.substring(2)
+            epicNumber = "WKJ"+this.randomENumber()
         }
         const EthWallet = Wallet.default.generate();
         const address = EthWallet.getAddressString();
@@ -70,7 +72,8 @@ class MongoDB {
             privateKey,
             mobileNumber,
             isVerified: false,
-            location: location
+            location: location,
+            epicNumber: epicNumber
         }).then(() => {
             let metaInfo = {
                 name,
@@ -93,7 +96,11 @@ class MongoDB {
             return Promise.reject({ "msg": "User exists" })
         })
     }
-
+    randomENumber() {
+        var minm = 1000000;
+        var maxm = 9999999;
+        return Math.floor(Math.random() * (maxm - minm + 1)) + minm;
+    }
     sendOTP(mobileNumber) {
         if (!mobileNumber) {
             return Promise.reject({ "msg": "Invalid mobile number" })
