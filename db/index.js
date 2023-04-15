@@ -71,8 +71,11 @@ class MongoDB {
             mobileNumber,
             isVerified: false,
             location: location
-        }).then(res => {
+        }).then(() => {
             let metaInfo = {
+                name,
+                soName,
+                pAddress: locationAddress,
                 addressProof,
                 mobileNumber,
                 isVerified: false,
@@ -95,7 +98,7 @@ class MongoDB {
         if (!mobileNumber) {
             return Promise.reject({ "msg": "Invalid mobile number" })
         }
-        return this.database.collection(`${Config.voterInfo}`).findOne({$or:[{ mobileNumber: mobileNumber},{ _id: mobileNumber}]}).then(res => {
+        return this.database.collection(`${Config.voterInfo}`).findOne({ $or: [{ mobileNumber: mobileNumber }, { _id: mobileNumber }] }).then(res => {
             if (!res) {
                 return Promise.reject({ "msg": "User not exists" })
             }
@@ -125,7 +128,7 @@ class MongoDB {
             },
                 { $set: { isVerified: true } })
         }).then(res => {
-            return this.database.collection(`${Config.voterInfo}`).findOne({$or:[{ mobileNumber: mobileNumber},{ _id: mobileNumber}]})
+            return this.database.collection(`${Config.voterInfo}`).findOne({ $or: [{ mobileNumber: mobileNumber }, { _id: mobileNumber }] })
         }).catch(e => {
             return Promise.reject({ "msg": "Invalid phone number/otp" })
         })
@@ -206,7 +209,7 @@ class MongoDB {
                 }
             }
             let electhon = paramNetwork.getElecthonBookManager();
-            let smartContract = electhon.giveVoting(res.address, options)
+            let smartContract = electhon.giveVoting(res.address, voteType, options)
 
             let updateRecord = this.database.collection(`${Config.voterInfo}`).updateOne({
                 address: vAddress,

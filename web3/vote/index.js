@@ -73,10 +73,10 @@ class Electhon {
         return promise;
     }
 
-    giveVoting(userAddress, options) {
+    giveVoting(userAddress, voteType, options) {
         const promise = new Promise((resolve, reject) => {
             const that = this;
-            this.electhonManagerContract.methods.giveVoting(userAddress).estimateGas(options, function (error, _gas) {
+            this.electhonManagerContract.methods.giveVoting(userAddress, voteType).estimateGas(options, function (error, _gas) {
                 if (error) {
                     return reject(error);
                 }
@@ -85,7 +85,7 @@ class Electhon {
                 options.to = that.to;
 
                 if (options.privateKey) {
-                    let txData = that.electhonManagerContract.methods.giveVoting(userAddress).encodeABI()
+                    let txData = that.electhonManagerContract.methods.giveVoting(userAddress, voteType).encodeABI()
                     ParamUtils.submitTransaction(that.connection, txData, options).then((data) => {
                         resolve(data)
                     }).catch(error => {

@@ -39,6 +39,50 @@
             "type": "constructor"
         },
         {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "name": "uInternalId",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": true,
+                    "name": "userType",
+                    "type": "uint256"
+                }
+            ],
+            "name": "onAdded",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "name": "sender",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "name": "voteType",
+                    "type": "string"
+                },
+                {
+                    "indexed": true,
+                    "name": "owner",
+                    "type": "address"
+                }
+            ],
+            "name": "onVoted",
+            "type": "event"
+        },
+        {
             "constant": false,
             "inputs": [
                 {
@@ -98,6 +142,10 @@
                 {
                     "name": "userAddress",
                     "type": "address"
+                },
+                {
+                    "name": "voteType",
+                    "type": "string"
                 }
             ],
             "name": "giveVoting",
@@ -222,5 +270,5 @@
             "type": "function"
         }
     ],
-    "address": "0x45f13bd930ce4744d1b595d5e88ad8da12599519"
+    "address": "0xf878ecd4999e8acd6db40b316c2be339ef25591f"
 }
