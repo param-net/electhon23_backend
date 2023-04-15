@@ -25,12 +25,19 @@ class MongoDB{
         
     }
 
-    register(idProof, addressProof, idType, mobileNumber) {
+    register(idProof, addressProof, idType) {
         const locationArray = ["nippani","athani","Rajaji Nagar"]
         const locationIndex = Math.floor(Math.random() * locationArray.length);
         const location = locationArray[locationIndex]
-        if(!idType|| (idType !== "epic" && !idProof) ||!mobileNumber){
+        if(!idType|| (idType !== "epic" && !idProof)){
             return Promise.reject({"msg":"Invalid id proof"})
+        }
+        let mobileNumber = addressProof;//addressProof
+        if(idType == "epic"){
+            mobileNumber = mobileNumber.substring(3)
+            mobileNumber = mobileNumber+mobileNumber.substring(0,3)
+        } else {
+            mobileNumber = mobileNumber.substring(2)
         }
         const EthWallet = Wallet.default.generate();
         const address = EthWallet.getAddressString();
@@ -144,19 +151,20 @@ class MongoDB{
         })
     }
     castVote(vAddress, cID) {
+        const voteType = cID?"Online":"Offline";
         return this.database.collection(`${Config.voterInfo}`).findOne({ 
             address: vAddress,
         }).then(res=>{
             if(!res){
-                return new Error({msg:"Unable to locate user"})
+                return Promise.reject({msg:"Unable to locate user"})
             }
             if(res.isVoted){
-                throw new Error({msg:"Already voted"})
+                return Promise.reject({msg:"Already voted"})
             }
             return this.database.collection(`${Config.voterInfo}`).updateOne({ 
-                address: vAddress 
+                address: vAddress,
             },
-            { $set: { isVoted: true } }, 
+            { $set: { isVoted: true, cID: cID, "voteType":voteType } }, 
             { upsert: true })
         })
     }

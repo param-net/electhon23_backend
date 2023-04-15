@@ -86,6 +86,8 @@ app.post('/voter/vote', (req, res) => {
     const vote    = req.body.cID;
     return MongoDB.getInstance().castVote(address, vote).then(result=>{
         return res.json({"status":1, message:result})
+    }).catch(e=>{
+        res.json({"status":0, message: !e.msg?"Unable to cast your vote":e.msg})
     })
 });
 
