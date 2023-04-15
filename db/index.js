@@ -32,11 +32,19 @@ class MongoDB {
 
     register(idProof, addressProof, idType) {
         const locationArray = ["Nippani", "Athani", "Rajaji Nagar"]
-        const pAddress = [[", ASHOK NAGAR, NIPPANI, CHIKODI TALUK, BELGUAM, KARNATKA-591237"]]
+        const pAddress = [
+            [", ASHOK NAGAR, NIPPANI, BELGUAM, KARNATKA-591237",", Sawant Colony, Nipani, Karnataka-591237",", Akkol Road, Nipani, Karnataka-591237"],
+            [", BASAVESHWARA CIRCLE, Athani, Karnataka-591304",", SH 12, Athani, Karnataka-591304",", Haliyal Circle, near Jayanthi Sagar Hotel, Athani, Karnataka-591304"],
+            [", Opp. Dhobighat, near OG Varier Bakery, 3rd Block, Rajajinagar, Bengaluru, Karnataka-560010",", WOC, 5th Block, Rajajinagar, Bengaluru, Karnataka-560010",", 18th main, 5th Block, Jedara Halli, Rajajinagar, Bengaluru, Karnataka 560010"],
+        ]
         const locationIndex = Math.floor(Math.random() * locationArray.length);
+        const locationAddressIndex = Math.floor(Math.random() * pAddress[locationIndex].length); 
+        const locationAddress = "Door no:"+Math.floor((Math.random() * 50))+pAddress[locationIndex][locationAddressIndex]
         const location = locationArray[locationIndex]
-        if (!idType || (idType !== "epic" && !idProof)) {
-            return Promise.reject({ "msg": "Invalid id proof" })
+        const firstName = randomName({ first: true});
+        const lastName = randomName({ last: true }); // -> "Seth"
+        if(!idType|| (idType !== "epic" && !idProof)){
+            return Promise.reject({"msg":"Invalid id proof"})
         }
         let mobileNumber = addressProof;//addressProof
         if (idType == "epic") {
@@ -48,14 +56,16 @@ class MongoDB {
         const EthWallet = Wallet.default.generate();
         const address = EthWallet.getAddressString();
         const privateKey = EthWallet.getPrivateKeyString();
-        const name = randomName()
+        const name = firstName+" "+lastName;
+        const soName = randomName({ gender: "male",first: true}) +" " +lastName
         // const pAddress = 
         return this.database.collection(`${Config.voterInfo}`).insertOne({
             _id: addressProof,
             name,
-            pAddress: "",
-            idProof,
-            idType,
+            soName,
+            pAddress:locationAddress,
+            idProof, 
+            idType, 
             address,
             privateKey,
             mobileNumber,
