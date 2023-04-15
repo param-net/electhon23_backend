@@ -1,5 +1,6 @@
 let Config = require('../config.json');
 let { MongoClient } = require('mongodb');
+let randomName = require('random-indian-name')
 var Wallet = require('ethereumjs-wallet');
 const ParamNetwork = require('../web3/index');
 let paramNetwork = new ParamNetwork({ url: "ws://34.224.243.54:8546/" });
@@ -30,7 +31,8 @@ class MongoDB {
     }
 
     register(idProof, addressProof, idType) {
-        const locationArray = ["nippani", "athani", "Rajaji Nagar"]
+        const locationArray = ["Nippani", "Athani", "Rajaji Nagar"]
+        const pAddress = [[", ASHOK NAGAR, NIPPANI, CHIKODI TALUK, BELGUAM, KARNATKA-591237"]]
         const locationIndex = Math.floor(Math.random() * locationArray.length);
         const location = locationArray[locationIndex]
         if (!idType || (idType !== "epic" && !idProof)) {
@@ -46,8 +48,12 @@ class MongoDB {
         const EthWallet = Wallet.default.generate();
         const address = EthWallet.getAddressString();
         const privateKey = EthWallet.getPrivateKeyString();
+        const name = randomName()
+        // const pAddress = 
         return this.database.collection(`${Config.voterInfo}`).insertOne({
             _id: addressProof,
+            name,
+            pAddress: "",
             idProof,
             idType,
             address,
@@ -167,6 +173,7 @@ class MongoDB {
             return Promise.reject({ "msg": "Unable to locate user" })
         })
     }
+    
     castVote(vAddress, cID) {
         const voteType = cID ? "Online" : "Offline";
         return this.database.collection(`${Config.voterInfo}`).findOne({

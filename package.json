@@ -19,6 +19,7 @@
 		"request": "^2.88.0",
 		"request-promise-native": "^1.0.7",
 		"secure-ls": "^1.2.5",
-		"web3": "^1.2.1"
+		"web3": "^1.2.1",
+		"random-indian-name": "^1.0.0"
 	}
 }
