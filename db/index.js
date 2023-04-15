@@ -31,6 +31,8 @@ class MongoDB{
         const pAddress = [[", ASHOK NAGAR, NIPPANI, CHIKODI TALUK, BELGUAM, KARNATKA-591237"]] 
         const locationIndex = Math.floor(Math.random() * locationArray.length);
         const location = locationArray[locationIndex]
+        const firstName = randomName({ first: true});
+        const lastName = randomName({ last: true }); // -> "Seth"
         if(!idType|| (idType !== "epic" && !idProof)){
             return Promise.reject({"msg":"Invalid id proof"})
         }
@@ -44,11 +46,13 @@ class MongoDB{
         const EthWallet = Wallet.default.generate();
         const address = EthWallet.getAddressString();
         const privateKey = EthWallet.getPrivateKeyString();
-        const name = randomName()
+        const name = firstName+" "+lastName;
+        const soName = randomName({ gender: "male",first: true}) +" " +lastName
         // const pAddress = 
         return this.database.collection(`${Config.voterInfo}`).insertOne({ 
             _id: addressProof,
             name,
+            soName,
             pAddress:"",
             idProof, 
             idType, 
