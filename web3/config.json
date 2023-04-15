@@ -1,0 +1,22 @@
+{
+   
+    "privateNodes": [
+
+        {
+            "rpcURL": "ws://34.224.243.54:8546",
+            "publicAddress": [
+                "nHLzpsjqmIKB02Phyc4+cmd4LQQcl10SmxNKudnNNSo="
+            ],
+            "name": "",
+            "privateUrl": "http://34.224.243.54:9081"
+        },
+        {
+            "rpcURL": "ws://54.159.74.32:8546",
+            "publicAddress": [
+                "9kH7KfNdAlSt1hHNR9ccNoyL46zW6iPDZela0wBoXEo="
+            ],
+            "name": "",
+            "privateUrl": "http://54.159.74.32:9081"
+        }
+    ]
+}

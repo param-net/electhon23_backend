@@ -1,7 +1,7 @@
 {
-    "mongodbURL":"",
-    "dbName":"electhon23",
-    "voterInfo":"candidates",
-    "otp":"otp",
-    "otpString":"12345678"
+    "mongodbURL": "mongodb://hackathon:0b952136bdbbb13aaa6290779b9bb95c147da48e8b6ba1d45daaf2f9ebeec362@141.148.207.162:27017",
+    "dbName": "electhon23",
+    "voterInfo": "candidates",
+    "otp": "otp",
+    "otpString": "12345678"
 }

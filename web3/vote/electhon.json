@@ -1,0 +1,226 @@
+{
+    "abi": [
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "enableAbsolute",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "disableAbsolute",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "isAbsolute",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "metaInfo",
+                    "type": "string"
+                },
+                {
+                    "name": "primaryID",
+                    "type": "string"
+                },
+                {
+                    "name": "idType",
+                    "type": "uint256"
+                }
+            ],
+            "name": "addCandidate",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "metaInfo",
+                    "type": "string"
+                },
+                {
+                    "name": "primaryID",
+                    "type": "string"
+                },
+                {
+                    "name": "idType",
+                    "type": "uint256"
+                }
+            ],
+            "name": "addUsers",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "userAddress",
+                    "type": "address"
+                }
+            ],
+            "name": "giveVoting",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "contractOwner",
+                    "type": "address"
+                }
+            ],
+            "name": "getAllUsers",
+            "outputs": [
+                {
+                    "name": "usersAddress",
+                    "type": "address[]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "contractOwner",
+                    "type": "address"
+                }
+            ],
+            "name": "getAllCandidates",
+            "outputs": [
+                {
+                    "name": "candidatesAddress",
+                    "type": "address[]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "owner",
+                    "type": "address"
+                }
+            ],
+            "name": "getVotingStatus",
+            "outputs": [
+                {
+                    "name": "voteSpent",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "userID",
+                    "type": "address"
+                }
+            ],
+            "name": "getUser",
+            "outputs": [
+                {
+                    "name": "metaInfo",
+                    "type": "string"
+                },
+                {
+                    "name": "primaryID",
+                    "type": "string"
+                },
+                {
+                    "name": "idType",
+                    "type": "uint256"
+                },
+                {
+                    "name": "voteSpent",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "candidateID",
+                    "type": "address"
+                }
+            ],
+            "name": "getCandidate",
+            "outputs": [
+                {
+                    "name": "metaInfo",
+                    "type": "string"
+                },
+                {
+                    "name": "primaryID",
+                    "type": "string"
+                },
+                {
+                    "name": "idType",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ],
+    "address": "0xf97b516880445e4763f3b0584014fb93496d6565"
+}
