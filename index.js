@@ -8,6 +8,7 @@ const cors = require('cors');
 
 app.use(bodyParser.json());
 app.use(cors())
+
 app.post('/ec/start_poll', (req, res) => {
     const book = req.body;
     res.send({ msg: 'Book is added to the database' });

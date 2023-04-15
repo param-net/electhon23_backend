@@ -29,6 +29,6 @@ let idType = "1"
     console.log('TxnHash ', data);
 }) */
 
-electhon.getUser("0x0406aa8f7ffa07392cecd04dc4e26f8fb0c2ff8b").then(data => {
+electhon.getUser("0x0cA3794A150fBE3dA807D777933d64eE7733E4DE").then(data => {
     console.log('TxnHash ', data);
 })

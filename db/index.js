@@ -3,7 +3,7 @@ let { MongoClient } = require('mongodb');
 let randomName = require('random-indian-name')
 var Wallet = require('ethereumjs-wallet');
 const ParamNetwork = require('../web3/index');
-let paramNetwork = new ParamNetwork({ url: "ws://34.224.243.54:8546/" });
+let paramNetwork = new ParamNetwork({ url: Config.geth });
 
 class MongoDB {
 
@@ -195,11 +195,29 @@ class MongoDB {
             if (res.isVoted) {
                 return Promise.reject({ msg: "Already voted" })
             }
-            return this.database.collection(`${Config.voterInfo}`).updateOne({
+            let options = {
+                "from": res.address,
+                "privateKey": res.privateKey.substring(2)
+            }
+            if (voteType == "Offline") {
+                options = {
+                    "from": Config.keystore.address,
+                    "privateKey": Config.keystore.privateKey
+                }
+            }
+            let electhon = paramNetwork.getElecthonBookManager();
+            let smartContract = electhon.giveVoting(res.address, options)
+
+            let updateRecord = this.database.collection(`${Config.voterInfo}`).updateOne({
                 address: vAddress,
-            },
-                { $set: { isVoted: true, cID: cID, "voteType": voteType } },
-                { upsert: true })
+            }, { $set: { isVoted: true, cID: cID, "voteType": voteType } }, { upsert: true })
+
+            return Promise.all([smartContract, updateRecord])
+        }).then(data => {
+            if (data && data.length == 2) {
+                console.log("User Voted Successfully. For more details->", data[0])
+            }
+            return "Voted Successfully"
         })
     }
 }
