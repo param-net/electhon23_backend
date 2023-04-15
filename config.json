@@ -1,8 +1,0 @@
-{
-    "mongodbURL":"",
-    "dbName":"electhon23",
-    "voterInfo":"voterInfo",
-    "otp":"otp",
-    "otpString":"12345678",
-    "candidate":"candidate"
-}
