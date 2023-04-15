@@ -187,6 +187,7 @@ class MongoDB {
     getVoters(location) {
         return this.database.collection(`${Config.voterInfo}`).find({
             location: location,
+            isAdmin: false
         }).toArray().then(res => {
             return res
         }).catch(e => {
