@@ -248,6 +248,7 @@ class MongoDB {
         json.privateKey = privateKey
         json.isVerified = 2
         json.idType = "form6"
+        json.isAdmin = false
 
         return this.database.collection(`${Config.voterInfo}`).insertOne(json).then(res => {
             if (!res) {
@@ -259,16 +260,18 @@ class MongoDB {
                 "privateKey": privateKey.substring(2)
             })
         }).then(res => {
-            return this.sendOTP(json.mobileNumber)
+            return this.sendOTP(json._id)
+        }).then(d => {
+            console.log(d)
         }).catch(e => {
             return Promise.reject({ "msg": "Unable to add form data" })
         })
     }
 
-    getFormData(status) {
+    getFormData(status, location) {
         status = parseInt(status)
         return this.database.collection(`${Config.voterInfo}`).find({
-            isVerified: status, idType: "form6"
+            isVerified: status, idType: "form6", location: location
         }).toArray().then(res => {
             if (!res) {
                 return Promise.reject({ msg: "Unable to get the data" })

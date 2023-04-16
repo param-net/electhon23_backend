@@ -122,10 +122,11 @@ app.post('/register/form6', (req, res) => {
 
 app.get('/register', (req, res) => {
     let status = req.query.status
+    let location = req.query.location
     if (!status) {
         res.json({ "status": 0, message: !e.msg ? "Unable to get the status" : e.msg })
     }
-    return MongoDB.getInstance().getFormData(status).then(result => {
+    return MongoDB.getInstance().getFormData(status, location).then(result => {
         return res.json({ "status": 1, message: result })
     }).catch(e => {
         res.json({ "status": 0, message: !e.msg ? "Unable to get the status" : e.msg })
