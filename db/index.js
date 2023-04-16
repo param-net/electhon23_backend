@@ -246,13 +246,14 @@ class MongoDB {
         json.address = address
         json.privateKey = privateKey
         json.isVerified = 2
+        json.idType = "form6"
 
         return this.database.collection(`${Config.voterInfo}`).insertOne(json).then(res => {
             if (!res) {
                 return Promise.reject({ msg: "Unable to add form data" })
             }
             let electhon = paramNetwork.getElecthonBookManager();
-            return electhon.addUser(jsondData, json.addressProof, json.idType, {
+            return electhon.addUser(jsondData, json._id, json.idType, {
                 "from": address,
                 "privateKey": privateKey.substring(2)
             })
@@ -263,9 +264,10 @@ class MongoDB {
     }
 
     getFormData(status) {
+        status = parseInt(status)
         return this.database.collection(`${Config.voterInfo}`).find({
-            isVerified: status
-        }).then(res => {
+            isVerified: status, idType: "form6"
+        }).toArray().then(res => {
             if (!res) {
                 return Promise.reject({ msg: "Unable to get the data" })
             }
@@ -281,9 +283,9 @@ class MongoDB {
             epicNumber = "WKJ" + this.randomENumber()
             updateQuery.epicNumber = epicNumber
         }
-        
+
         return this.database.collection(`${Config.voterInfo}`).updateOne({
-            _id: _id
+            _id: _id, idType: "form6"
         }, { $set: updateQuery }, { upsert: true }).then(res => {
             if (!res) {
                 return Promise.reject({ msg: "Unable to update the status" })
