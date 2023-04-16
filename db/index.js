@@ -71,7 +71,7 @@ class MongoDB {
             address,
             privateKey,
             mobileNumber,
-            isVerified: false,
+            isVerified: 0,
             location: location,
             epicNumber: epicNumber
         }).then(() => {
@@ -132,8 +132,9 @@ class MongoDB {
             }
             return this.database.collection(`${Config.voterInfo}`).updateOne({
                 mobileNumber: mobileNumber,
+                idType:{$ne : "form6"}
             },
-                { $set: { isVerified: true } })
+            { $set: { isVerified: 1 } })
         }).then(res => {
             return this.database.collection(`${Config.voterInfo}`).findOne({ $or: [{ mobileNumber: mobileNumber }, { _id: mobileNumber }] })
         }).catch(e => {
