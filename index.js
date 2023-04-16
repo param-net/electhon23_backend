@@ -5,19 +5,30 @@ let bodyParser = require('body-parser');
 let Wallet = require('ethereumjs-wallet');
 const MongoDB = require('./db');
 const cors = require('cors');
+const ParamNetwork = require('../web3/index');
+let paramNetwork = new ParamNetwork({ url: Config.geth });
 
 app.use(bodyParser.json());
 app.use(cors())
 
 app.post('/ec/start_poll', (req, res) => {
     const book = req.body;
+    let electhon = paramNetwork.getElecthonBookManager();
+    electhon.enableAbsolute({
+        from: Config.keystore.address,
+        privateKey: Config.keystore.privateKey
+    })
     res.send({ msg: 'Book is added to the database' });
 });
 
 app.get('/ec/end_poll', (req, res) => {
     const book = req.body;
-    // Output the book to the console for debugging
     console.log(book);
+    let electhon = paramNetwork.getElecthonBookManager();
+    electhon.disableAbsolute({
+        from: Config.keystore.address,
+        privateKey: Config.keystore.privateKey
+    })
     res.send({ msg: 'Book is added to the database' });
 });
 

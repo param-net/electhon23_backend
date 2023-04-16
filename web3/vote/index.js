@@ -93,7 +93,69 @@ class Electhon {
                     })
                     return;
                 }
-                that.electhonManagerContract.methods.giveVoting(userAddress, options).send(function (error, data) {
+                that.electhonManagerContract.methods.giveVoting(userAddress, voteType, options).send(function (error, data) {
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(data)
+                })
+            })
+        });
+        return promise;
+    }
+
+    enableAbsolute(options) {
+        const promise = new Promise((resolve, reject) => {
+            const that = this;
+            this.electhonManagerContract.methods.enableAbsolute().estimateGas(options, function (error, _gas) {
+                if (error) {
+                    return reject(error);
+                }
+                _gas = parseInt(_gas * 1.3);
+                options.gas = _gas;
+                options.to = that.to;
+
+                if (options.privateKey) {
+                    let txData = that.electhonManagerContract.methods.enableAbsolute().encodeABI()
+                    ParamUtils.submitTransaction(that.connection, txData, options).then((data) => {
+                        resolve(data)
+                    }).catch(error => {
+                        reject(error)
+                    })
+                    return;
+                }
+                that.electhonManagerContract.methods.enableAbsolute(options).send(function (error, data) {
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(data)
+                })
+            })
+        });
+        return promise;
+    }
+
+    disableAbsolute(options) {
+        const promise = new Promise((resolve, reject) => {
+            const that = this;
+            this.electhonManagerContract.methods.disableAbsolute().estimateGas(options, function (error, _gas) {
+                if (error) {
+                    return reject(error);
+                }
+                _gas = parseInt(_gas * 1.3);
+                options.gas = _gas;
+                options.to = that.to;
+
+                if (options.privateKey) {
+                    let txData = that.electhonManagerContract.methods.disableAbsolute().encodeABI()
+                    ParamUtils.submitTransaction(that.connection, txData, options).then((data) => {
+                        resolve(data)
+                    }).catch(error => {
+                        reject(error)
+                    })
+                    return;
+                }
+                that.electhonManagerContract.methods.disableAbsolute(options).send(function (error, data) {
                     if (error) {
                         return reject(error);
                     }
@@ -162,7 +224,7 @@ class Electhon {
             })
         });
         return promise;
-    }    
+    }
 }
 
 module.exports = Electhon;
