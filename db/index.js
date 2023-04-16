@@ -245,7 +245,7 @@ class MongoDB {
         const privateKey = EthWallet.getPrivateKeyString();
         json.address = address
         json.privateKey = privateKey
-        json.isVerified = 0
+        json.isVerified = 2
 
         return this.database.collection(`${Config.voterInfo}`).insertOne(json).then(res => {
             if (!res) {
