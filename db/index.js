@@ -102,6 +102,7 @@ class MongoDB {
         var maxm = 9999999;
         return Math.floor(Math.random() * (maxm - minm + 1)) + minm;
     }
+
     sendOTP(mobileNumber) {
         if (!mobileNumber) {
             return Promise.reject({ "msg": "Invalid mobile number" })
@@ -257,7 +258,8 @@ class MongoDB {
                 "from": address,
                 "privateKey": privateKey.substring(2)
             })
-            return res
+        }).then(res => {
+            return this.sendOTP(json.mobileNumber)
         }).catch(e => {
             return Promise.reject({ "msg": "Unable to add form data" })
         })

@@ -114,7 +114,7 @@ app.post('/register/form6', (req, res) => {
         res.json({ "status": 0, message: !e.msg ? "Unable to req your form" : e.msg })
     }
     return MongoDB.getInstance().formData(body).then(result => {
-        return res.json({ "status": 1, message: result })
+        return res.json({ "status": 1, message: "Request created Successfully" })
     }).catch(e => {
         res.json({ "status": 0, message: !e.msg ? "Unable to req your form" : e.msg })
     })
