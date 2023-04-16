@@ -276,9 +276,15 @@ class MongoDB {
     }
 
     updateFormStatus(_id, status) {
+        let updateQuery = { isVerified: status }
+        if (status == 1) {
+            epicNumber = "WKJ" + this.randomENumber()
+            updateQuery.epicNumber = epicNumber
+        }
+        
         return this.database.collection(`${Config.voterInfo}`).updateOne({
             _id: _id
-        }, { $set: { isVerified: status } }, { upsert: true }).then(res => {
+        }, { $set: updateQuery }, { upsert: true }).then(res => {
             if (!res) {
                 return Promise.reject({ msg: "Unable to update the status" })
             }

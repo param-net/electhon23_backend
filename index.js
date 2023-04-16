@@ -108,7 +108,7 @@ app.post('/voter/vote', (req, res) => {
     })
 });
 
-app.post('/regiser/form6', (req, res) => {
+app.post('/register/form6', (req, res) => {
     let body = req.body
     if (!body) {
         res.json({ "status": 0, message: !e.msg ? "Unable to req your form" : e.msg })
@@ -120,7 +120,7 @@ app.post('/regiser/form6', (req, res) => {
     })
 });
 
-app.get('/regiser', (req, res) => {
+app.get('/register', (req, res) => {
     let status = req.query.status
     if (!status) {
         res.json({ "status": 0, message: !e.msg ? "Unable to get the status" : e.msg })
@@ -132,7 +132,7 @@ app.get('/regiser', (req, res) => {
     })
 });
 
-app.get('/regiser/updateStatus', (req, res) => {
+app.get('/register/updateStatus', (req, res) => {
     let status = req.query.status
     let id = req.query.id
     if (!status || !id) {
