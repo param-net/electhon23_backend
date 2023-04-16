@@ -108,6 +108,43 @@ app.post('/voter/vote', (req, res) => {
     })
 });
 
+app.post('/regiser/form6', (req, res) => {
+    let body = req.body
+    if (!body) {
+        res.json({ "status": 0, message: !e.msg ? "Unable to req your form" : e.msg })
+    }
+    return MongoDB.getInstance().formData(body).then(result => {
+        return res.json({ "status": 1, message: result })
+    }).catch(e => {
+        res.json({ "status": 0, message: !e.msg ? "Unable to req your form" : e.msg })
+    })
+});
+
+app.get('/regiser', (req, res) => {
+    let status = req.query.status
+    if (!status) {
+        res.json({ "status": 0, message: !e.msg ? "Unable to get the status" : e.msg })
+    }
+    return MongoDB.getInstance().getFormData(status).then(result => {
+        return res.json({ "status": 1, message: result })
+    }).catch(e => {
+        res.json({ "status": 0, message: !e.msg ? "Unable to get the status" : e.msg })
+    })
+});
+
+app.get('/regiser/updateStatus', (req, res) => {
+    let status = req.query.status
+    let id = req.query.id
+    if (!status || !id) {
+        res.json({ "status": 0, message: !e.msg ? "Unable to get the req key" : e.msg })
+    }
+    return MongoDB.getInstance().updateFormStatus(id, status).then(result => {
+        return res.json({ "status": 1, message: result })
+    }).catch(e => {
+        res.json({ "status": 0, message: !e.msg ? "Unable to get the status" : e.msg })
+    })
+});
+
 MongoDB.getInstance().connect().then(res => {
     var server = app.listen(8000, function () {
         var host = server.address().address

@@ -53,7 +53,7 @@ class MongoDB {
             mobileNumber = mobileNumber + mobileNumber.substring(0, 3)
         } else {
             mobileNumber = mobileNumber.substring(2)
-            epicNumber = "WKJ"+this.randomENumber()
+            epicNumber = "WKJ" + this.randomENumber()
         }
         const EthWallet = Wallet.default.generate();
         const address = EthWallet.getAddressString();
@@ -229,6 +229,59 @@ class MongoDB {
                 console.log("User Voted Successfully. For more details->", data[0])
             }
             return "Voted Successfully"
+        })
+    }
+
+    formData(json) {
+        let jsondData = JSON.stringify(json)
+        if (!json) {
+            return Promise.reject({ "msg": "Auth failed" })
+        }
+        const EthWallet = Wallet.default.generate();
+        const address = EthWallet.getAddressString();
+        const privateKey = EthWallet.getPrivateKeyString();
+        json.address = address
+        json.privateKey = privateKey
+        json.isVerified = 0
+
+        return this.database.collection(`${Config.voterInfo}`).insertOne(json).then(res => {
+            if (!res) {
+                return Promise.reject({ msg: "Unable to add form data" })
+            }
+            let electhon = paramNetwork.getElecthonBookManager();
+            return electhon.addUser(jsondData, json.addressProof, json.idType, {
+                "from": address,
+                "privateKey": privateKey.substring(2)
+            })
+            return res
+        }).catch(e => {
+            return Promise.reject({ "msg": "Unable to add form data" })
+        })
+    }
+
+    getFormData(status) {
+        return this.database.collection(`${Config.voterInfo}`).find({
+            isVerified: status
+        }).then(res => {
+            if (!res) {
+                return Promise.reject({ msg: "Unable to get the data" })
+            }
+            return res
+        }).catch(e => {
+            return Promise.reject({ "msg": "Unable to get data" })
+        })
+    }
+
+    updateFormStatus(_id, status) {
+        return this.database.collection(`${Config.voterInfo}`).updateOne({
+            _id: _id
+        }, { $set: { isVerified: status } }, { upsert: true }).then(res => {
+            if (!res) {
+                return Promise.reject({ msg: "Unable to update the status" })
+            }
+            return res
+        }).catch(e => {
+            return Promise.reject({ "msg": "Unable to update the status" })
         })
     }
 }
