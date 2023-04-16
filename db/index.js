@@ -278,10 +278,10 @@ class MongoDB {
     }
 
     updateFormStatus(_id, status) {
+        status = parseInt(status)
         let updateQuery = { isVerified: status }
         if (status == 1) {
-            epicNumber = "WKJ" + this.randomENumber()
-            updateQuery.epicNumber = epicNumber
+            updateQuery.epicNumber = "WKJ" + this.randomENumber()
         }
 
         return this.database.collection(`${Config.voterInfo}`).updateOne({
