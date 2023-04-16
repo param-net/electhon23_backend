@@ -69,9 +69,10 @@ class MongoDB {
             idProof,
             idType,
             address,
+            isAdmin:false,
             privateKey,
             mobileNumber,
-            isVerified: false,
+            isVerified: 0,
             location: location,
             epicNumber: epicNumber
         }).then(() => {
@@ -85,7 +86,7 @@ class MongoDB {
                 location
             }
             let electhon = paramNetwork.getElecthonBookManager();
-            return electhon.addUser(JSON.stringify(metaInfo), idProof, idType, {
+            return electhon.addUser(JSON.stringify(metaInfo), addressProof, idType, {
                 "from": address,
                 "privateKey": privateKey.substring(2)
             })
@@ -131,9 +132,10 @@ class MongoDB {
                 throw new Error("Invalid otp")
             }
             return this.database.collection(`${Config.voterInfo}`).updateOne({
-                mobileNumber: mobileNumber,
+                $or: [{ mobileNumber: mobileNumber }, { _id: mobileNumber }],
+                idType:{$ne : "form6"}
             },
-                { $set: { isVerified: true } })
+            { $set: { isVerified: 1 } })
         }).then(res => {
             return this.database.collection(`${Config.voterInfo}`).findOne({ $or: [{ mobileNumber: mobileNumber }, { _id: mobileNumber }] })
         }).catch(e => {
@@ -187,7 +189,8 @@ class MongoDB {
     getVoters(location) {
         return this.database.collection(`${Config.voterInfo}`).find({
             location: location,
-            isAdmin: false
+            isAdmin: false,
+            isVerified: 1
         }).toArray().then(res => {
             return res
         }).catch(e => {
