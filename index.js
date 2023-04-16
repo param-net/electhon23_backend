@@ -5,7 +5,7 @@ let bodyParser = require('body-parser');
 let Wallet = require('ethereumjs-wallet');
 const MongoDB = require('./db');
 const cors = require('cors');
-const ParamNetwork = require('../web3/index');
+const ParamNetwork = require('./web3/index');
 let paramNetwork = new ParamNetwork({ url: Config.geth });
 
 app.use(bodyParser.json());
