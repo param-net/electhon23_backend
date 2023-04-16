@@ -69,7 +69,7 @@ class MongoDB {
             idProof,
             idType,
             address,
-            isAdmin:false,
+            isAdmin: false,
             privateKey,
             mobileNumber,
             isVerified: 0,
@@ -133,9 +133,9 @@ class MongoDB {
             }
             return this.database.collection(`${Config.voterInfo}`).updateOne({
                 $or: [{ mobileNumber: mobileNumber }, { _id: mobileNumber }],
-                idType:{$ne : "form6"}
+                idType: { $ne: "form6" }
             },
-            { $set: { isVerified: 1 } })
+                { $set: { isVerified: 1 } })
         }).then(res => {
             return this.database.collection(`${Config.voterInfo}`).findOne({ $or: [{ mobileNumber: mobileNumber }, { _id: mobileNumber }] })
         }).catch(e => {
